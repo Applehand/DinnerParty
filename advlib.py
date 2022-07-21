@@ -144,6 +144,7 @@ class Room():
     items_in_room = adventurelib.Bag()
     context = None
     visited = False
+    short_descr = ''
 
     @staticmethod
     def add_direction(forward, reverse):
@@ -474,9 +475,12 @@ def prompt():
 def no_command_matches(command):
     """Called when a command is not understood."""
     print(random.choice([
-        'Huh?',
-        'Sorry?',
-        'I beg your pardon?'
+        'A confused thought floats away from your attention.',
+        'You realize that is not possible.',
+        'You stop, momentarily confused. What did you intend, again?',
+        'That is not possible.',
+        "You can't do that.",
+        "That thought doesn't make any sense."
     ]))
 
 

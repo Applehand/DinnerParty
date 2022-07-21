@@ -1,12 +1,21 @@
 from gamerooms import *
 
+# TODO: Create a Time Tracker Where Actions Add to time_passed Based On Weight
+
+
 # Create Character Inventories
 
 player_inventory = Bag()
+elder_inventory = Bag()
+general_inventory = Bag()
+debutante_inventory = Bag()
+fool_inventory = Bag()
+noble_inventory = Bag()
 
 # Action Command Definitions
 
 
+@when('go to ROOM')
 @when('enter ROOM')
 def enter(room: str):
     global current_room
@@ -18,23 +27,37 @@ def enter(room: str):
             if r == word and word in room_keys:
                 current_room = current_room.connections[word]
                 set_context(current_room.context)
-                current_room.visited = True
-                say(current_room)
-            else:
-                say("You seem confused as to where you want to go.")
+                if not current_room.visited:
+                    say(current_room)
+                else:
+                    say(current_room.short_descr)
 
+                current_room.visited = True
+
+
+# TODO: Create Simple Combat/Assassination System
 
 @when('attack')
 def attack():
     if player_inventory:
         for item in player_inventory:
             if item.context == 'cane':
-                say("You attack with your cane")
+                say("You attack with your cane.")
     else:
         say("You attack.")
 
 
 # Talk to Character / Dialogue
+
+
+def dialogue(char):
+    set_context(char.context)
+    say(char.greeting)
+
+    # TODO: Expand Dialogue Functionality (Allow Conditions To Be Altered if Certain Dialogue Reached)
+
+    for option in char.dialogue_options.values():
+        print(option)
 
 @when("talk to CHARACTER")
 def talk_to(character: str):
@@ -48,42 +71,31 @@ def talk_to(character: str):
 
     # If the character is in the room
     else:
-        # Start the Dialogue Interaction
-        set_context(char.context)
-        say(char.greeting)
-
-        # TODO: Finish Dialogue Functionality (Allow Conditions To Be Altered if Certain Dialogue Reached)
-
-        for option in char.dialogue_options.values():
-            print(option)
+        dialogue(char)  # Start the Dialogue Interaction
 
 
 # Getting Information About The Room (Looking)
-
-
-@when("describe THING")
-@when("examine THING")
-@when("look at THING")
-def look_at(thing):
-    global player_inventory, current_room
-
-    obj = current_room.items_in_room.find(thing)
-    if not obj:
-        obj = current_room.chars_in_room.find(thing)
-        if not obj:
-            say(f"You can't see {thing} anywhere.")
-    else:
-        say(f"You look closer at {thing}. {obj.description}")
-
+# TODO: Create looking_at system for getting information about the room, it's connections, and the people inside
 
 # Inspecting Items
 
 
-@when('inspect ITEM')
-@when('look at ITEM')
-@when('study ITEM')
-def inspect(item):
-    print(f"You inspect the {item}.")
+@when("describe ITEM")
+@when("examine ITEM")
+@when("look at ITEM")
+def examine(item):
+    global player_inventory, current_room
+
+    obj = current_room.items_in_room.find(item)
+    if not obj:
+        obj = current_room.chars_in_room.find(item)
+        if not obj:
+            obj = player_inventory.find(item)
+            if not obj:
+                say(f"You don't see a {item} anywhere.")
+
+    else:
+        say(f"You look closer at {item}. {obj.description}")
 
 
 # Picking Up Items
