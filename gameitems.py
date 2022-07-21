@@ -1,5 +1,8 @@
 from advlib import *
 
+# TODO: Create At Least 3 Items For Each Room
+
+
 # Item Creation
 cane = Item('cane', 'wooden cane', 'walking cane')
 cane.description = 'A sturdy wooden cane.'
@@ -8,7 +11,7 @@ cane.wearable = True
 cane.edible = False
 cane.context = 'cane'
 
-gun = Item('pistol', 'gun', 'handgun')
+gun = Item('gun', 'pistol', 'handgun')
 gun.description = 'A 9mm pistol.'
 gun.pickup = True
 gun.wearable = False

@@ -38,7 +38,6 @@ __all__ = (
 #: Commands will only be available if their context is "within" the currently
 #: active context, a functiondefined by '_match_context()`.
 current_context = []
-all_contexts = []
 
 
 #: The separator that defines the context hierarchy
@@ -54,7 +53,6 @@ def set_context(new_context):
     global current_context
     _validate_context(new_context)
     current_context = new_context
-    all_contexts.append(new_context)
 
 
 def get_context():
@@ -111,9 +109,6 @@ def _match_context(context, active_context):
         # If the command has a context, and we don't, no match
         return False
 
-    if active_context in all_contexts:
-        return True
-
     # The active_context matches if it starts with context and is followed by
     # the end of the string or the separator
     clen = len(context)
@@ -148,6 +143,7 @@ class Room():
     chars_in_room = adventurelib.Bag()
     items_in_room = adventurelib.Bag()
     context = None
+    visited = False
 
     @staticmethod
     def add_direction(forward, reverse):

@@ -1,14 +1,11 @@
 from gamerooms import *
 
-# Set The Foyer As The Current Room On Game Start
-current_room = foyer
+# Create Character Inventories
 
-# Create Player and NPC Inventories
-inventory = Bag()
-player_conditions = []
-
+player_inventory = Bag()
 
 # Action Command Definitions
+
 
 @when('enter ROOM')
 def enter(room: str):
@@ -21,15 +18,20 @@ def enter(room: str):
             if r == word and word in room_keys:
                 current_room = current_room.connections[word]
                 set_context(current_room.context)
+                current_room.visited = True
                 say(current_room)
+            else:
+                say("You seem confused as to where you want to go.")
 
 
 @when('attack')
 def attack():
-    if get_context() == 'cane':
-        print("You attack with your cane.")
+    if player_inventory:
+        for item in player_inventory:
+            if item.context == 'cane':
+                say("You attack with your cane")
     else:
-        print('You attack.')
+        say("You attack.")
 
 
 # Talk to Character / Dialogue
@@ -50,10 +52,29 @@ def talk_to(character: str):
         set_context(char.context)
         say(char.greeting)
 
+        # TODO: Finish Dialogue Functionality (Allow Conditions To Be Altered if Certain Dialogue Reached)
+
         for option in char.dialogue_options.values():
             print(option)
 
+
 # Getting Information About The Room (Looking)
+
+
+@when("describe THING")
+@when("examine THING")
+@when("look at THING")
+def look_at(thing):
+    global player_inventory, current_room
+
+    obj = current_room.items_in_room.find(thing)
+    if not obj:
+        obj = current_room.chars_in_room.find(thing)
+        if not obj:
+            say(f"You can't see {thing} anywhere.")
+    else:
+        say(f"You look closer at {thing}. {obj.description}")
+
 
 # Inspecting Items
 
@@ -68,28 +89,31 @@ def inspect(item):
 # Picking Up Items
 
 
+@when('get THING')
 @when('take THING')
 @when('grab THING')
 @when('pick up THING')
 def take(thing):
-    if thing in current_room.items_in_room:
-        say(f"You take the {thing} and add it to your inventory.")
-        inventory.add(thing)
-        set_context(thing)
+    obj = current_room.items_in_room.take(thing)
+
+    if obj:
+        say(f"You take the {thing}.")
+        player_inventory.add(obj)
+    else:
+        print(f"You don't see a {thing} here.")
 
 
-# Using Items
-
+# Using Special Items
 
 @when('shoot gun')
-def shoot_gun():
-    if get_context() == 'gun':
-        say('You shoot the gun.')
+@when('shoot')
+def shoot():
+    if player_inventory:
+        for item in player_inventory:
+            if item.context == 'gun':
+                say("You shoot the gun.")
     else:
         say("You don't have a gun.")
-
-
-
 
 
 start()

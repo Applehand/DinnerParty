@@ -1,16 +1,17 @@
 from advlib import *
 import gameitems, gamechars
 
+# TODO: Expand Descriptions and Create Shorter Descriptions If Location Has Already Been Visited
+
 # Room Definitions
 main_hall = Room("""
 A long, crimson carpet extends the length of the main hall. 
 """)
-main_hall.context = 'main hall'
-
 
 foyer = Room("""
 Soft benches line one side of the foyer, with tall cabinets on the other.
 """)
+foyer.visited = True
 
 grand_showroom = Room("""
 The Grand Showroom is full of artifacts with labels detailing their historical significance.
@@ -40,6 +41,8 @@ hidden_room = Room("""
 A dark stone room with wooden shelves filled with glassware and experimental instruments.
 """)
 
+# TODO: Rename Guest Rooms to 'Characters' Room and describe accordingly.
+
 guest_room1 = Room("""
 A quaint room for guests to lodge comfortably.
 """)
@@ -64,9 +67,17 @@ guest_hall = Room("""
 A short hallway with 3 doors on the left and two on the right.
 """)
 
+front_yard = Room("""
+Sharply cut hedges line the outer walls of the manor. A circular driveway sweeps across the building
+""")
+
+back_yard = Room("""
+An expansive backyard dotted with tall trees stretches before you, all the way to the horizon.
+""")
+
 # Room Connections / Room Layout
 room_keys = ['main', 'foyer', 'showroom', 'sitting', 'dining', 'private', 'kitchen', 'bedroom', 'hidden',
-             'guest', 'room1', 'room2', 'room3', 'room4', 'room5']
+             'guest', 'room1', 'room2', 'room3', 'room4', 'room5', 'front', 'back']
 
 foyer.connections = {'main': main_hall}
 main_hall.connections = {'foyer': foyer, 'showroom': grand_showroom, 'private': private_hall, 'dining': dining_room,
@@ -85,12 +96,16 @@ guest_room2.connections = {'guest': guest_hall}
 guest_room3.connections = {'guest': guest_hall}
 guest_room4.connections = {'guest': guest_hall}
 guest_room5.connections = {'guest': guest_hall}
+front_yard.connections = {'foyer': foyer}
 
+# TODO: Block Access To Rooms Until Constraints Lifted (Create Items or Dialogue Conditions to Satisfy Constraint)
 
 # Room Constraints / Room Conditions
 
-hidden_room.hidden = True
+hidden_room.hidden = True  # The Entrance Is Hidden Until Dialogue Accessed or Item Found
 host_bedroom.locked = True
+kitchen.preparation = True  # Servants are preparing dinner, so the kitchen is blocked off.
+private_hall.locked = True
 
 # Place Characters In Initial Room
 
@@ -99,3 +114,6 @@ foyer.chars_in_room.add(gamechars.party_host)
 # Place Items In Initial Room
 foyer.items_in_room.add(gameitems.cane)
 foyer.items_in_room.add(gameitems.gun)
+
+# Set The Foyer As The Current Room On Game Start
+current_room = foyer
