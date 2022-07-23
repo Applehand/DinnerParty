@@ -136,6 +136,7 @@ class Placeholder:
 class Room():
     """A generic room object that can be used by game code."""
 
+    name = ''
     _directions = {}
     connections = {}
     context = None

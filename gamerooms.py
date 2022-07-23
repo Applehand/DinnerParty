@@ -6,74 +6,91 @@ from gamechars import *
 main_hall = Room("""
 A long, crimson carpet extends the length of the main hall. 
 """)
+main_hall.name = 'The Main Hall'
 
 foyer = Room("""
 Soft benches line one side of the foyer, with tall cabinets on the other.
 """)
+foyer.name = 'The Foyer, or Entrance Room.'
 foyer.short_descr = 'The benches and cabinets are still here.'
 
 grand_showroom = Room("""
 The Grand Showroom is full of artifacts with labels detailing their historical significance.
 """)
+grand_showroom.name = 'The Grand Showroom'
 
 sitting_room = Room("""
 Expertly made sofas and chairs decorate the room, with full bookshelves lining every available space.
 """)
+sitting_room.name = 'The Sitting Room'
 
 dining_room = Room("""
 A massive table spans nearly the whole length of the dining room, with glass chandeliers hanging above.
 """)
+dining_room.name = 'The Dining Room'
 
 private_hall = Room("""
 A small connective hall joins many rooms, with a few tables, decorations, and a mirror.
 """)
+private_hall.name = 'The Private Hall (Servant Hall)'
 
 kitchen = Room("""
 The kitchen is heavily used and worn, with blackened ovens and bits of fresh food scrap about the counters. The smells are heavenly.
  """)
+kitchen.name = 'The Kitchen'
 
 host_bedroom = Room("""
 A spacious bedroom with a massive bed, a few thick rugs, and an alcove with a window and seats.
 """)
+host_bedroom.name = "The Host's Bedroom"
 
 hidden_room = Room("""
 A dark stone room with wooden shelves filled with glassware and experimental instruments.
 """)
+hidden_room.name = 'The hidden room'
 
 # TODO: Rename Guest Rooms to 'Characters' Room and describe accordingly.
 
-guest_room1 = Room("""
+elder_room = Room("""
 A quaint room for guests to lodge comfortably.
 """)
+elder_room.name = "The Elder's Room"
 
-guest_room2 = Room("""
+debutante_room = Room("""
 A quaint room for guests to lodge comfortably.
 """)
+debutante_room.name = "The Debutante's Room"
 
-guest_room3 = Room("""
+fool_room = Room("""
 A quaint room for guests to lodge comfortably.
 """)
+fool_room.name = "The Fool's Room"
 
-guest_room4 = Room("""
+noble_room = Room("""
 A quaint room for guests to lodge comfortably.
 """)
+noble_room.name = "The Noble's Room"
 
-guest_room5 = Room("""
+general_room = Room("""
 A quaint room for guests to lodge comfortably.
 """)
+general_room.name = "The General's Room"
 
 guest_hall = Room("""
 A short hallway with 3 doors on the left and two on the right.
 """)
+guest_hall.name = 'The Guest Hall'
 
 front_yard = Room("""
 Sharply cut hedges line the outer walls of the manor. A circular driveway sweeps across the face of the building.
 """)
+front_yard.name = 'The Front Yard'
 front_yard.short_descr = 'It is cold out here.'
 
 back_yard = Room("""
 An expansive backyard dotted with tall trees stretches before you, all the way to the horizon.
 """)
+back_yard.name = 'The Back Yard'
 
 # Room Connections / Room Layout
 
@@ -90,13 +107,13 @@ private_hall.connections = {'main': main_hall, 'guest': guest_hall, 'kitchen': k
 kitchen.connections = {'private': private_hall, 'dining': dining_room}
 host_bedroom.connections = {'private': private_hall, 'hidden': hidden_room, 'back': back_yard}
 hidden_room.connections = {'bedroom': host_bedroom}
-guest_hall.connections = {'private': private_hall, 'room1': guest_room1, 'room2': guest_room2, 'room3': guest_room3,
-                          'room4': guest_room4, 'room5': guest_room5, }
-guest_room1.connections = {'guest': guest_hall}
-guest_room2.connections = {'guest': guest_hall}
-guest_room3.connections = {'guest': guest_hall}
-guest_room4.connections = {'guest': guest_hall}
-guest_room5.connections = {'guest': guest_hall}
+guest_hall.connections = {'private': private_hall, 'room1': elder_room, 'room2': debutante_room, 'room3': fool_room,
+                          'room4': noble_room, 'room5': general_room, }
+elder_room.connections = {'guest': guest_hall}
+debutante_room.connections = {'guest': guest_hall}
+fool_room.connections = {'guest': guest_hall}
+noble_room.connections = {'guest': guest_hall}
+general_room.connections = {'guest': guest_hall}
 front_yard.connections = {'foyer': foyer, 'back': back_yard}
 back_yard.connections = {'front': front_yard, 'bedroom': host_bedroom}
 
@@ -122,11 +139,11 @@ kitchen.chars = Bag()
 host_bedroom.chars = Bag()
 hidden_room.chars = Bag()
 guest_hall.chars = Bag()
-guest_room1.chars = Bag()
-guest_room2.chars = Bag()
-guest_room3.chars = Bag()
-guest_room4.chars = Bag()
-guest_room5.chars = Bag()
+elder_room.chars = Bag()
+debutante_room.chars = Bag()
+fool_room.chars = Bag()
+noble_room.chars = Bag()
+general_room.chars = Bag()
 
 
 # Create Room Inventories for Items
@@ -142,8 +159,8 @@ kitchen.items = Bag(kitchen_items)
 host_bedroom.items = Bag(host_bedroom_items)
 hidden_room.items = Bag(hidden_room_items)
 guest_hall.items = Bag(guest_hall_items)
-guest_room1.items = Bag(room1_items)
-guest_room2.items = Bag(room2_items)
-guest_room3.items = Bag(room3_items)
-guest_room4.items = Bag(room4_items)
-guest_room5.items = Bag(room5_items)
+elder_room.items = Bag(room1_items)
+debutante_room.items = Bag(room2_items)
+fool_room.items = Bag(room3_items)
+noble_room.items = Bag(room4_items)
+general_room.items = Bag(room5_items)

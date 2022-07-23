@@ -2,6 +2,7 @@ from gamerooms import *
 
 # Set The Front Yard As The Current Room On Game Start
 current_room = front_yard
+print(current_room)
 
 # TODO: Create a Time Tracker Where Actions Add to time_passed Based On action_weight
 
@@ -9,6 +10,8 @@ current_room = front_yard
 
 # Changing Rooms
 
+
+@when('go to the ROOM')
 @when('go to ROOM')
 @when('enter ROOM')
 def enter(room: str):
@@ -44,21 +47,33 @@ def attack():
 # Talk to Character / Dialogue
 
 def dialogue(char):
+    global current_room
+    print('')
     set_context(char.context)
     say(char.greeting)
+    print('')
+
+    dialogue_index = []
+    n = 0
 
     # TODO: Expand Dialogue Functionality (Allow Conditions To Be Altered if Certain Dialogue Reached)
-
+    print("YOUR RESPONSE:")
     for option in char.dialogue_options.values():
-        print(option)
+        n += 1
+        dialogue_index.append(n)
 
+        print(f'{dialogue_index[n - 1]}> {option}\n')
+    choice = 'response' + input('Choose a number\n>')
+    print('')
+    print(char.dialogue_responses[choice])
+
+    set_context(None)
 
 @when("talk to CHARACTER")
 def talk_to(character: str):
     global current_room
 
     char = current_room.chars.find(character)
-    print(char.animate)
 
     # If the character is not in the room
     if not char:
@@ -71,8 +86,14 @@ def talk_to(character: str):
 
 # Getting Information About The Room (Looking)
 
-# TODO: Create looking_at system for getting information about the room,
-#  it's connections, short_descr of the items in the room, and the people in the room
+@when('room')
+def room():
+    print(current_room)
+    print('')
+    print('This room is connected to:\n')
+    for r in current_room.connections:
+        print(current_room.connections[r].name)
+
 
 # Inspecting Items
 
@@ -103,7 +124,6 @@ def take(thing):
     global current_room
 
     obj = current_room.items.take(thing)
-    print(current_room.items)
 
     if obj:
         player_inventory.add(obj)
