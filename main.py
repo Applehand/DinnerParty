@@ -1,19 +1,13 @@
 from gamerooms import *
 
-# TODO: Create a Time Tracker Where Actions Add to time_passed Based On Weight
+# Set The Front Yard As The Current Room On Game Start
+current_room = front_yard
 
+# TODO: Create a Time Tracker Where Actions Add to time_passed Based On action_weight
 
-# Create Character Inventories
+# TODO: Create special actions like looting a body, etc.
 
-player_inventory = Bag()
-elder_inventory = Bag()
-general_inventory = Bag()
-debutante_inventory = Bag()
-fool_inventory = Bag()
-noble_inventory = Bag()
-
-# Action Command Definitions
-
+# Changing Rooms
 
 @when('go to ROOM')
 @when('enter ROOM')
@@ -35,20 +29,19 @@ def enter(room: str):
                 current_room.visited = True
 
 
-# TODO: Create Simple Combat/Assassination System
+# TODO: Create Simple Combat System (Assassination if surprise attack.)
 
 @when('attack')
 def attack():
-    if player_inventory:
-        for item in player_inventory:
-            if item.context == 'cane':
-                say("You attack with your cane.")
+    obj = player_inventory.find('cane')
+    if obj:
+        say("You attack with your cane.")
+
     else:
         say("You attack.")
 
 
 # Talk to Character / Dialogue
-
 
 def dialogue(char):
     set_context(char.context)
@@ -59,11 +52,13 @@ def dialogue(char):
     for option in char.dialogue_options.values():
         print(option)
 
+
 @when("talk to CHARACTER")
 def talk_to(character: str):
     global current_room
 
-    char = current_room.chars_in_room.find(character)
+    char = current_room.chars.find(character)
+    print(char.animate)
 
     # If the character is not in the room
     if not char:
@@ -75,27 +70,26 @@ def talk_to(character: str):
 
 
 # Getting Information About The Room (Looking)
-# TODO: Create looking_at system for getting information about the room, it's connections, and the people inside
+
+# TODO: Create looking_at system for getting information about the room,
+#  it's connections, short_descr of the items in the room, and the people in the room
 
 # Inspecting Items
-
 
 @when("describe ITEM")
 @when("examine ITEM")
 @when("look at ITEM")
 def examine(item):
-    global player_inventory, current_room
+    global player_inventory
 
-    obj = current_room.items_in_room.find(item)
+    obj = player_inventory.find(item)
+    print(player_inventory)
+
     if not obj:
-        obj = current_room.chars_in_room.find(item)
-        if not obj:
-            obj = player_inventory.find(item)
-            if not obj:
-                say(f"You don't see a {item} anywhere.")
+        say(f"You don't have {item} in your inventory.")
 
     else:
-        say(f"You look closer at {item}. {obj.description}")
+        say(f"""You inspect the {item} closer. {obj.description}""")
 
 
 # Picking Up Items
@@ -106,13 +100,16 @@ def examine(item):
 @when('grab THING')
 @when('pick up THING')
 def take(thing):
-    obj = current_room.items_in_room.take(thing)
+    global current_room
+
+    obj = current_room.items.take(thing)
+    print(current_room.items)
 
     if obj:
-        say(f"You take the {thing}.")
         player_inventory.add(obj)
+        say(f"{thing} has been added to your inventory.")
     else:
-        print(f"You don't see a {thing} here.")
+        say(f"{thing} is not in the vicinity.")
 
 
 # Using Special Items
@@ -120,12 +117,13 @@ def take(thing):
 @when('shoot gun')
 @when('shoot')
 def shoot():
-    if player_inventory:
-        for item in player_inventory:
-            if item.context == 'gun':
-                say("You shoot the gun.")
+    global player_inventory
+
+    obj = player_inventory.find('gun')
+    if obj:
+        say("You shoot your gun and it is loud.")
     else:
-        say("You don't have a gun.")
+        say("You don't have a gun, idiot.")
 
 
 start()

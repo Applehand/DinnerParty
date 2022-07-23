@@ -7,7 +7,7 @@ You are an assassin. Your goal is to kill all the guests without alerting the ot
 ## Characters
 
 ### The Host
-He is the reason you are all here. But does he know what any of you really are?
+He is the reason you are all here in his home. But does he know what any of you really are?
 ### The Elder
 A small, quiet old lady. She is quick for her age.
 ### The General
@@ -18,3 +18,4 @@ A charming young woman with an eye for self-doubt.
 A happy idiot who never realizes the gravity of a situation. Incapable of reading the room.
 ### The Noble
 A confident middle-aged man who wears expensive clothes and uses a lot of words to say little.
+

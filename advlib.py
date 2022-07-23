@@ -2,8 +2,6 @@ import re
 import sys
 import inspect
 
-import adventurelib
-
 try:
     import readline  # noqa: adds readline semantics to input()
 except ImportError:
@@ -140,8 +138,6 @@ class Room():
 
     _directions = {}
     connections = {}
-    chars_in_room = adventurelib.Bag()
-    items_in_room = adventurelib.Bag()
     context = None
     visited = False
     short_descr = ''
@@ -214,7 +210,7 @@ class Item:
     pickup = False
     wearable = False
     edible = False
-    context = None
+    animate = False
 
     def __init__(self, name, *aliases):
         self.name = name

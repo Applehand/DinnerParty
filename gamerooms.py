@@ -1,5 +1,4 @@
-from advlib import *
-import gameitems, gamechars
+from gamechars import *
 
 # TODO: Expand Descriptions and Create Shorter Descriptions If Location Has Already Been Visited
 
@@ -110,19 +109,41 @@ host_bedroom.locked = True
 kitchen.preparation = True  # Servants are preparing dinner, so the kitchen is blocked off.
 private_hall.locked = True
 
-# Place Characters In Initial Room
+# Create Room Inventories for Characters
 
-foyer.chars_in_room.add(gamechars.party_host)
-foyer.chars_in_room.add(gamechars.the_elder)
-foyer.chars_in_room.add(gamechars.the_general)
-foyer.chars_in_room.add(gamechars.the_debutante)
-foyer.chars_in_room.add(gamechars.the_fool)
-foyer.chars_in_room.add(gamechars.the_noble)
+front_yard.chars = Bag([the_host, the_elder, the_general, the_fool, the_debutante, the_noble, galatea])
+foyer.chars = Bag()
+main_hall.chars = Bag()
+grand_showroom.chars = Bag()
+sitting_room.chars = Bag()
+dining_room.chars = Bag()
+private_hall.chars = Bag()
+kitchen.chars = Bag()
+host_bedroom.chars = Bag()
+hidden_room.chars = Bag()
+guest_hall.chars = Bag()
+guest_room1.chars = Bag()
+guest_room2.chars = Bag()
+guest_room3.chars = Bag()
+guest_room4.chars = Bag()
+guest_room5.chars = Bag()
 
 
-# Place Items In Initial Room
-foyer.items_in_room.add(gameitems.cane)
-host_bedroom.items_in_room.add(gameitems.gun)
+# Create Room Inventories for Items
 
-# Set The Front Yard As The Current Room On Game Start
-current_room = front_yard
+front_yard.items = Bag(front_yard_items)
+foyer.items = Bag(foyer_items)
+main_hall.items = Bag(main_hall_items)
+grand_showroom.items = Bag(grand_showroom_items)
+sitting_room.items = Bag(sitting_room_items)
+dining_room.items = Bag(dining_room_items)
+private_hall.items = Bag(private_hall_items)
+kitchen.items = Bag(kitchen_items)
+host_bedroom.items = Bag(host_bedroom_items)
+hidden_room.items = Bag(hidden_room_items)
+guest_hall.items = Bag(guest_hall_items)
+guest_room1.items = Bag(room1_items)
+guest_room2.items = Bag(room2_items)
+guest_room3.items = Bag(room3_items)
+guest_room4.items = Bag(room4_items)
+guest_room5.items = Bag(room5_items)
