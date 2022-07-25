@@ -33,9 +33,11 @@ private_hall = Room("""
 A small connective hall joins many rooms, with a few tables, decorations, and a mirror.
 """)
 private_hall.name = 'The Private Hall (Servant Hall)'
+private_hall.locked_descr = 'There is a small sign in front of the double doors to the private hall \
+                            that says, "Closed until 5:30 P.M."'
 
 kitchen = Room("""
-The kitchen is heavily used and worn, with blackened ovens and bits of fresh food scrap about the counters. The smells are heavenly.
+The kitchen is heavily used and worn, with blackened ovens and bits of fresh food scrap about the counters.
  """)
 kitchen.name = 'The Kitchen'
 
@@ -49,7 +51,7 @@ A dark stone room with wooden shelves filled with glassware and experimental ins
 """)
 hidden_room.name = 'The hidden room'
 
-# TODO: Rename Guest Rooms to 'Characters' Room and describe accordingly.
+# TODO: Describe 'Characters' Room accordingly.
 
 elder_room = Room("""
 A quaint room for guests to lodge comfortably.
@@ -85,7 +87,8 @@ front_yard = Room("""
 Sharply cut hedges line the outer walls of the manor. A circular driveway sweeps across the face of the building.
 """)
 front_yard.name = 'The Front Yard'
-front_yard.short_descr = 'It is cold out here.'
+front_yard.short_descr = 'Standing on the front yard near the circular drive, you feel the cold as sharp as the hedges.'
+front_yard.visited = True
 
 back_yard = Room("""
 An expansive backyard dotted with tall trees stretches before you, all the way to the horizon.
@@ -121,9 +124,9 @@ back_yard.connections = {'front': front_yard, 'bedroom': host_bedroom}
 
 # Room Constraints / Room Conditions
 
-hidden_room.hidden = True  # The Entrance Is Hidden Until Dialogue Accessed or Item Found
+hidden_room.locked = True  # The Entrance Is Hidden Until Dialogue Accessed or Item Found
 host_bedroom.locked = True
-kitchen.preparation = True  # Servants are preparing dinner, so the kitchen is blocked off.
+kitchen.locked = True  # Servants are preparing dinner, so the kitchen is blocked off.
 private_hall.locked = True
 
 # Create Room Inventories for Characters

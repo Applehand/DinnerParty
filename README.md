@@ -2,7 +2,7 @@
  Text-based dinner party assassin game using the Python library adventurelib.
 
 ## Plot
-You are an assassin. Your goal is to kill all the guests without alerting the others, saving the host for the last kill.
+You are an assassin. Your goal is to eliminate all guests without raising alarm, and you must save the host for last.
 
 ## Characters
 

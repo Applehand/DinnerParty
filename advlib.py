@@ -141,7 +141,9 @@ class Room():
     connections = {}
     context = None
     visited = False
-    short_descr = ''
+    locked = False
+    short_descr = 'short description'
+    locked_descr = 'locked description'
 
     @staticmethod
     def add_direction(forward, reverse):

@@ -1,16 +1,18 @@
 from gamerooms import *
 
-# Set The Front Yard As The Current Room On Game Start
+# Set The Front Yard As The Current Room And Prints Its Description On Game Start
 current_room = front_yard
 print(current_room)
 
-# TODO: Create a Time Tracker Where Actions Add to time_passed Based On action_weight
+
+# TODO: Create a Time Tracker Where Actions Add to time Based On action_weight
+
 
 # TODO: Create special actions like looting a body, etc.
 
 # Changing Rooms
 
-
+@when('go ROOM')
 @when('go to the ROOM')
 @when('go to ROOM')
 @when('enter ROOM')
@@ -18,18 +20,34 @@ def enter(room: str):
     global current_room
 
     room_split = room.split()
+    entered_or_locked = False
+    is_same_room = True
 
     for r in current_room.connections:
         for word in room_split:
             if r == word and word in room_keys:
-                current_room = current_room.connections[word]
-                set_context(current_room.context)
-                if not current_room.visited:
-                    say(current_room)
+                target_room = current_room.connections[word]
+                if target_room.locked:
+                    say(target_room.locked_descr)
+                    entered_or_locked = True
+                    is_same_room = False
                 else:
-                    say(current_room.short_descr)
+                    current_room = target_room
+                    entered_or_locked = True
+                    is_same_room = False
+                    set_context(current_room.context)
 
-                current_room.visited = True
+                    if not current_room.visited:
+                        say(current_room)
+                    else:
+                        say(current_room.short_descr)
+
+    if not entered_or_locked:
+        print('You hesitate, unsure where to go.')
+
+    # if is_same_room:
+    #     print("You are already in that room.")
+    current_room.visited = True
 
 
 # TODO: Create Simple Combat System (Assassination if surprise attack.)
@@ -50,13 +68,15 @@ def dialogue(char):
     global current_room
     print('')
     set_context(char.context)
-    say(char.greeting)
+    say(f"{char} says:{char.greeting}")
     print('')
 
     dialogue_index = []
     n = 0
 
-    # TODO: Expand Dialogue Functionality (Allow Conditions To Be Altered if Certain Dialogue Reached)
+    # TODO: Expand Dialogue Functionality (Allow Conditions To Be Altered if Certain Dialogue Reached, Continue Dialogue
+    #  After Choosing Option)
+
     print("YOUR RESPONSE:")
     for option in char.dialogue_options.values():
         n += 1
@@ -65,9 +85,10 @@ def dialogue(char):
         print(f'{dialogue_index[n - 1]}> {option}\n')
     choice = 'response' + input('Choose a number\n>')
     print('')
-    print(char.dialogue_responses[choice])
+    print(f"{char} says: {char.dialogue_responses[choice]}")
 
     set_context(None)
+
 
 @when("talk to CHARACTER")
 def talk_to(character: str):
@@ -86,6 +107,7 @@ def talk_to(character: str):
 
 # Getting Information About The Room (Looking)
 
+@when('where')
 @when('room')
 def room():
     print(current_room)
@@ -132,6 +154,7 @@ def take(thing):
         say(f"{thing} is not in the vicinity.")
 
 
+# TODO: Create More Special Items and Their Actions
 # Using Special Items
 
 @when('shoot gun')
