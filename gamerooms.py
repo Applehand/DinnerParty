@@ -84,10 +84,10 @@ A short hallway with 3 doors on the left and two on the right.
 guest_hall.name = 'The Guest Hall'
 
 front_yard = Room("""
-Sharply cut hedges line the outer walls of the manor. A circular driveway sweeps across the face of the building.
+Sharply cut hedges line the outer walls of the manor, a circular driveway sweeping across the front face of the building.
 """)
 front_yard.name = 'The Front Yard'
-front_yard.short_descr = 'Standing on the front yard near the circular drive, you feel the cold as sharp as the hedges.'
+front_yard.short_descr = 'Standing on the front circular drive, you see the hedges cut tall into the night sky.'
 front_yard.visited = True
 
 back_yard = Room("""

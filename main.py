@@ -1,16 +1,28 @@
 from gamerooms import *
 
-# Set The Front Yard As The Current Room And Prints Its Description On Game Start
+# Shows Current Room's Connections
+
+
+def show_connections():
+    global current_room
+    print('This room is connected to:')
+    for r in current_room.connections:
+        print(current_room.connections[r].name)
+
+
+# Set The Front Yard As The Current Room And Prints Its Description/Connections On Game Start
+
 current_room = front_yard
+print('')
 print(current_room)
-
-
-# TODO: Create a Time Tracker Where Actions Add to time Based On action_weight
+print('')
+show_connections()
 
 
 # TODO: Create special actions like looting a body, etc.
 
 # Changing Rooms
+
 
 @when('go ROOM')
 @when('go to the ROOM')
@@ -20,6 +32,7 @@ def enter(room: str):
     global current_room
 
     room_split = room.split()
+
     entered_or_locked = False
     is_same_room = True
 
@@ -27,7 +40,9 @@ def enter(room: str):
         for word in room_split:
             if r == word and word in room_keys:
                 target_room = current_room.connections[word]
-                if target_room.locked:
+                if not target_room:
+                    print("You are already in that room.")
+                elif target_room.locked:
                     say(target_room.locked_descr)
                     entered_or_locked = True
                     is_same_room = False
@@ -39,27 +54,29 @@ def enter(room: str):
 
                     if not current_room.visited:
                         say(current_room)
+                        show_connections()
+
                     else:
                         say(current_room.short_descr)
+                        show_connections()
 
-    if not entered_or_locked:
+
+    if not entered_or_locked and not is_same_room:
         print('You hesitate, unsure where to go.')
 
-    # if is_same_room:
-    #     print("You are already in that room.")
     current_room.visited = True
 
 
-# TODO: Create Simple Combat System (Assassination if surprise attack.)
+# TODO: Create Character Responses When Attacked)
 
-@when('attack')
-def attack():
-    obj = player_inventory.find('cane')
-    if obj:
-        say("You attack with your cane.")
+@when('assassinate CHARACTER')
+@when('kill CHARACTER')
+@when('attack CHARACTER')
+def attack(character: str):
+    global current_room
 
-    else:
-        say("You attack.")
+    char = current_room.chars.find(character)
+    print(char)
 
 
 # Talk to Character / Dialogue
@@ -115,6 +132,14 @@ def room():
     print('This room is connected to:\n')
     for r in current_room.connections:
         print(current_room.connections[r].name)
+        print('')
+    print('These characters are in the room:')
+    for p in current_room.chars:
+        print(p)
+    print('')
+    print('These items are in the room:')
+    for i in current_room.items:
+        print(i)
 
 
 # Inspecting Items
