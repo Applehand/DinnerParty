@@ -1,4 +1,16 @@
+import requests
 from gamerooms import *
+
+
+# Generate List of 50 Random Quotes from API
+
+@when('quote')
+def quote():
+    request = requests.get('https://zenquotes.io/api/quotes')
+    data = request.json()
+    quotes = [q['q'] for q in data]
+
+
 
 # Shows Current Room's Connections
 
@@ -60,14 +72,13 @@ def enter(room: str):
                         say(current_room.short_descr)
                         show_connections()
 
-
     if not entered_or_locked and not is_same_room:
         print('You hesitate, unsure where to go.')
 
     current_room.visited = True
 
 
-# TODO: Create Character Responses When Attacked)
+# TODO: Create Character Responses When Attacked
 
 @when('assassinate CHARACTER')
 @when('kill CHARACTER')

@@ -1,5 +1,6 @@
 from advlib import *
 
+
 # TODO: Create At Least 3 Novelty Items, 3 Weapons, and 3 Gear For Each Room
 
 
@@ -24,14 +25,20 @@ rock.wearable = False
 rock.edible = False
 
 watch = Item('watch', 'pocket watch', 'golden pocket watch')  # The Noble's Golden Pocket watch
-watch.description = 'A fine golden pocket watch with a large orange fuel truck engraved on the back.'
+watch.description = 'A fine golden pocket watch with a large orange fuel truck engraved on the back. The letters T.A.R.K are thinly engraved on the back.'
 watch.pickup = True
 watch.wearable = True
 watch.edible = False
 
+journal = Item('journal', 'personal journal')
+journal.description = 'A small leather journal tightly bound and sealed in red.'
+journal.pickup = True
+journal.wearable = False
+journal.edible = False
+
 # Room Inventory Lists
 
-front_yard_items = [rock]
+front_yard_items = [rock, journal]
 foyer_items = [cane]
 main_hall_items = []
 grand_showroom_items = []
